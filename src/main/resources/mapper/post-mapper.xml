@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="piopoi.legacyboard.mapper.PostMapper">
+    <resultMap id="post" type="piopoi.legacyboard.domain.Post">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="memberId" column="member_id"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="post">
+        SELECT * FROM post
+    </select>
+
+    <insert id="insertPost" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post (title, content, member_id, created_at)
+        VALUES (#{title}, #{content}, #{memberId}, #{createdAt})
+    </insert>
+</mapper>
