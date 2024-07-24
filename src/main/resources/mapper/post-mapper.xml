@@ -11,12 +11,33 @@
         <result property="createdAt" column="created_at"/>
     </resultMap>
 
+    <select id="findById" resultMap="post">
+        SELECT id, title, content, member_id, created_at
+        FROM post
+        WHERE id = #{id}
+    </select>
+
     <select id="findAll" resultMap="post">
-        SELECT * FROM post
+        SELECT id, title, content, member_id, created_at
+        FROM post
     </select>
 
     <insert id="insertPost" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO post (title, content, member_id, created_at)
         VALUES (#{title}, #{content}, #{memberId}, #{createdAt})
     </insert>
+
+    <update id="updatePost">
+        UPDATE post
+        SET title      = #{title},
+            content    = #{content},
+            member_id  = #{memberId},
+            created_at = #{createdAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deletePost">
+        DELETE FROM post
+        WHERE id = #{id}
+    </delete>
 </mapper>

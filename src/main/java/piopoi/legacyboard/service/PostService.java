@@ -15,6 +15,11 @@ public class PostService {
     private final PostMapper postMapper;
 
     @Transactional(readOnly = true)
+    public Post getPost(Long postId) {
+        return postMapper.findById(postId);
+    }
+
+    @Transactional(readOnly = true)
     public List<Post> getAllPosts() {
         return postMapper.findAll();
     }
@@ -23,5 +28,16 @@ public class PostService {
     public void addPost(Post post) {
         post.setCreatedAt(LocalDateTime.now());
         postMapper.insertPost(post);
+    }
+
+    @Transactional
+    public void updatePost(Post post) {
+        post.setCreatedAt(LocalDateTime.now());
+        postMapper.updatePost(post);
+    }
+
+    @Transactional
+    public void deletePost(Long postId) {
+        postMapper.deletePost(postId);
     }
 }

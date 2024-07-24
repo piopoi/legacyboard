@@ -4,23 +4,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <title>Posts List</title>
+    <title>List - Post</title>
 </head>
 <body>
 <h1>Posts</h1>
 <table>
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Member ID</th>
-        <th>Created At</th>
+        <th>id</th>
+        <th>title</th>
+        <th>content</th>
+        <th>member id</th>
+        <th>created at</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach var="post" items="${posts}">
-        <tr>
+        <tr onclick="viewPost(${post.id})">
             <td>${post.id}</td>
             <td>${post.title}</td>
             <td>${post.content}</td>
@@ -30,6 +30,15 @@
     </c:forEach>
     </tbody>
 </table>
-<a href="/posts/new">Add New Post</a>
+<button type="button" onclick="registerForm()">Add New Post</button>
 </body>
 </html>
+<script>
+    function registerForm() {
+        window.location.href = '/posts/registerForm';
+    }
+
+    function viewPost(postId) {
+        window.location.href = '/posts/' + postId;
+    }
+</script>

@@ -1,13 +1,14 @@
 package piopoi.legacyboard.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import piopoi.legacyboard.domain.Post;
 import piopoi.legacyboard.service.PostService;
 
@@ -18,21 +19,45 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/{id}")
+    public String view(@PathVariable Long id, Model model) {
+        model.addAttribute("post", postService.getPost(id));
+        return "post/view";
+    }
+
     @GetMapping
     public String list(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
         return "post/list";
     }
 
-    @GetMapping("/new")
-    public String newPostForm(Model model) {
+    @GetMapping("/registerForm")
+    public String registerForm(Model model) {
         model.addAttribute("post", new Post());
-        return "post/new";
+        return "post/registerForm";
     }
 
     @PostMapping
-    public String createPost(@ModelAttribute Post post) {
+    public String create(@ModelAttribute Post post) {
         postService.addPost(post);
+        return "redirect:/posts/" + post.getId();
+    }
+
+    @GetMapping("/updateForm")
+    public String updateForm(@RequestParam Long id, Model model) {
+        model.addAttribute("post", postService.getPost(id));
+        return "post/updateForm";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute Post post) {
+        postService.updatePost(post);
+        return "redirect:/posts/" + post.getId();
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam Long id) {
+        postService.deletePost(id);
         return "redirect:/posts";
     }
 }
